@@ -11,6 +11,7 @@ import Footer from '../components/Footer';
 import ProductModal from '../components/ProductModal';
 import CartDrawer from '../components/CartDrawer';
 import CheckoutModal from '../components/CheckoutModal';
+import MobileBottomNav from '../components/MobileBottomNav';
 import { useCart } from '../context/CartContext';
 import { Sparkles, CheckCircle2 } from 'lucide-react';
 
@@ -18,13 +19,13 @@ export default function Home() {
   const { toastMessage } = useCart();
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="storefront-page-wrap">
       {/* Top Header & Navigation */}
       <Header />
       <NavBar />
 
       {/* Main Storefront Body */}
-      <main style={{ flex: 1 }}>
+      <main className="storefront-main-body">
         {/* Hero Slider & Departments */}
         <HeroBanner />
 
@@ -44,6 +45,9 @@ export default function Home() {
       <ProductModal />
       <CartDrawer />
       <CheckoutModal />
+
+      {/* Mobile Sticky Bottom Bar */}
+      <MobileBottomNav />
 
       {/* Toast Notification Pill */}
       {toastMessage && (

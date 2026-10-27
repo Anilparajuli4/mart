@@ -39,17 +39,7 @@ export default function CheckoutModal() {
   return (
     <div className="overlay-backdrop" onClick={closeCheckout}>
       <div 
-        style={{
-          background: '#ffffff',
-          borderRadius: '16px',
-          width: '100%',
-          maxWidth: '620px',
-          maxHeight: '90vh',
-          overflowY: 'auto',
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-          position: 'relative',
-          padding: '2rem'
-        }}
+        className="checkout-modal-card"
         onClick={(e) => e.stopPropagation()}
       >
         <button 
@@ -77,7 +67,7 @@ export default function CheckoutModal() {
                   <Truck size={16} color="var(--primary)" /> 1. Delivery Address
                 </h4>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginBottom: '0.75rem' }}>
+                <div className="checkout-grid-2" style={{ marginBottom: '0.75rem' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: '#475569', marginBottom: '0.25rem' }}>Full Name</label>
                     <input 
@@ -111,7 +101,7 @@ export default function CheckoutModal() {
                   />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '0.75rem' }}>
+                <div className="checkout-grid-3">
                   <div>
                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: '#475569', marginBottom: '0.25rem' }}>Suburb / City</label>
                     <input 
@@ -151,17 +141,10 @@ export default function CheckoutModal() {
                   <CreditCard size={16} color="var(--primary)" /> 2. Payment Method
                 </h4>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.6rem' }}>
+                <div className="checkout-payment-grid">
                   <div 
                     onClick={() => setPaymentMethod('card')}
-                    style={{
-                      border: paymentMethod === 'card' ? '2px solid var(--primary)' : '1px solid #e2e8f0',
-                      background: paymentMethod === 'card' ? 'var(--primary-light)' : '#ffffff',
-                      borderRadius: '8px',
-                      padding: '0.75rem',
-                      textAlign: 'center',
-                      cursor: 'pointer'
-                    }}
+                    className={`checkout-method-box ${paymentMethod === 'card' ? 'active-card' : ''}`}
                   >
                     <CreditCard size={20} color={paymentMethod === 'card' ? 'var(--primary)' : '#64748b'} style={{ margin: '0 auto 0.25rem' }} />
                     <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0f172a' }}>Credit / Debit</div>
@@ -169,14 +152,7 @@ export default function CheckoutModal() {
 
                   <div 
                     onClick={() => setPaymentMethod('afterpay')}
-                    style={{
-                      border: paymentMethod === 'afterpay' ? '2px solid #000' : '1px solid #e2e8f0',
-                      background: paymentMethod === 'afterpay' ? '#f0fdf4' : '#ffffff',
-                      borderRadius: '8px',
-                      padding: '0.75rem',
-                      textAlign: 'center',
-                      cursor: 'pointer'
-                    }}
+                    className={`checkout-method-box ${paymentMethod === 'afterpay' ? 'active-afterpay' : ''}`}
                   >
                     <Sparkles size={20} color={paymentMethod === 'afterpay' ? '#000' : '#64748b'} style={{ margin: '0 auto 0.25rem' }} />
                     <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f172a' }}>Afterpay / Zip</div>
@@ -184,14 +160,7 @@ export default function CheckoutModal() {
 
                   <div 
                     onClick={() => setPaymentMethod('paypal')}
-                    style={{
-                      border: paymentMethod === 'paypal' ? '2px solid var(--primary)' : '1px solid #e2e8f0',
-                      background: paymentMethod === 'paypal' ? 'var(--primary-light)' : '#ffffff',
-                      borderRadius: '8px',
-                      padding: '0.75rem',
-                      textAlign: 'center',
-                      cursor: 'pointer'
-                    }}
+                    className={`checkout-method-box ${paymentMethod === 'paypal' ? 'active-paypal' : ''}`}
                   >
                     <Wallet size={20} color={paymentMethod === 'paypal' ? 'var(--primary)' : '#64748b'} style={{ margin: '0 auto 0.25rem' }} />
                     <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0f172a' }}>PayPal & Apple Pay</div>

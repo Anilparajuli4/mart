@@ -123,7 +123,7 @@ export default function HeroBanner() {
               <h1 className="hero-title">{slide.title}</h1>
               <p className="hero-subtitle">{slide.subtitle}</p>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+              <div className="hero-actions-row">
                 <button 
                   className="hero-btn"
                   onClick={() => {
@@ -136,16 +136,7 @@ export default function HeroBanner() {
                   <ArrowRight size={16} />
                 </button>
 
-                <div style={{
-                  background: 'rgba(255, 255, 255, 0.15)',
-                  backdropFilter: 'blur(8px)',
-                  padding: '0.5rem 0.9rem',
-                  borderRadius: '8px',
-                  fontSize: '0.82rem',
-                  fontWeight: 700,
-                  color: '#febd69',
-                  border: '1px solid rgba(254, 189, 105, 0.4)'
-                }}>
+                <div className="hero-discount-pill">
                   🏷️ {slide.discountTag}
                 </div>
               </div>

@@ -252,7 +252,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Admin Tabs */}
-        <div style={{ display: 'flex', gap: '0.5rem', borderBottom: '1px solid #1f2937', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem', borderBottom: '1px solid #1f2937', marginBottom: '1.5rem', overflowX: 'auto', whiteSpace: 'nowrap', WebkitOverflowScrolling: 'touch' }}>
           <button
             onClick={() => setActiveTab('transactions')}
             style={{

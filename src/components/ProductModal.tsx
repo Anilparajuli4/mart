@@ -47,54 +47,46 @@ export default function ProductModal() {
         </button>
 
         {/* Left: Product Images Gallery */}
-        <div style={{ padding: '1.5rem', background: '#f8f9fa', display: 'flex', flexDirection: 'column' }}>
-          <div style={{ width: '100%', height: '360px', borderRadius: '12px', overflow: 'hidden', background: '#fff', border: '1px solid #e5e7eb', marginBottom: '1rem' }}>
+        <div className="modal-gallery-pane">
+          <div className="modal-img-wrap">
             <img 
               src={currentImage} 
               alt={product.name} 
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+              className="modal-main-img" 
             />
           </div>
 
           {/* Thumbnails */}
           {product.images && product.images.length > 1 && (
-            <div style={{ display: 'flex', gap: '0.6rem' }}>
+            <div className="modal-thumbs-wrap">
               {product.images.map((img, idx) => (
                 <button
                   key={idx}
                   onClick={() => setSelectedImgIdx(idx)}
-                  style={{
-                    width: '64px',
-                    height: '64px',
-                    borderRadius: '8px',
-                    overflow: 'hidden',
-                    border: selectedImgIdx === idx ? '2px solid var(--primary)' : '1px solid #d1d5db',
-                    padding: '2px',
-                    background: '#fff'
-                  }}
+                  className={`modal-thumb-btn ${selectedImgIdx === idx ? 'active' : ''}`}
                 >
-                  <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '6px' }} />
+                  <img src={img} alt="" className="modal-thumb-img" />
                 </button>
               ))}
             </div>
           )}
 
           {/* Trust points */}
-          <div style={{ marginTop: 'auto', paddingTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.6rem', borderTop: '1px solid #e5e7eb' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.78rem', color: '#4b5563' }}>
+          <div className="modal-trust-list">
+            <div className="modal-trust-item">
               <ShieldCheck size={16} color="var(--primary)" /> 100% Authentic Australian Stock Guaranteed
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.78rem', color: '#4b5563' }}>
+            <div className="modal-trust-item">
               <Truck size={16} color="#059669" /> Free Australia Post Express on orders over A$75
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.78rem', color: '#4b5563' }}>
+            <div className="modal-trust-item">
               <RotateCcw size={16} color="#4f46e5" /> 30-Day Returns under Australian Consumer Law (ACL)
             </div>
           </div>
         </div>
 
         {/* Right: Product Details & Controls */}
-        <div style={{ padding: '2rem 1.75rem', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+        <div className="modal-details-pane">
           {/* Category & Brand */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
             <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--primary)', textTransform: 'uppercase' }}>
@@ -243,22 +235,10 @@ export default function ProductModal() {
             </div>
 
             {/* Action buttons row */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+            <div className="modal-actions-grid">
               <button 
                 onClick={handleAddToCart}
-                style={{
-                  background: 'var(--secondary)',
-                  color: '#ffffff',
-                  fontWeight: 700,
-                  fontSize: '0.92rem',
-                  padding: '0.8rem',
-                  borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '0.4rem',
-                  transition: 'background 0.2s'
-                }}
+                className="modal-add-cart-btn"
               >
                 <ShoppingCart size={18} /> Add to Cart
               </button>

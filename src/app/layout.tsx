@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Madhu Mart Australia - Fast, Trusted Online Shopping | Electronics, Fashion & Home",
   description: "Australia's premier online shopping destination. Fast Australia Post Express delivery from Sydney & Melbourne hubs, Afterpay & Zip, and Australian Consumer Law protection.",
   keywords: "ecommerce australia, online shopping sydney, melbourne shopping, afterpay electronics, aussie deals",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
 };
 
 export default function RootLayout({

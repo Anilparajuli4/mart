@@ -60,7 +60,7 @@ export default function ProductGrid() {
         </div>
 
         {/* Action Controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+        <div className="section-actions-wrap">
           {/* Quick Filter Tabs */}
           <div className="filter-tabs">
             <button
@@ -90,12 +90,13 @@ export default function ProductGrid() {
           </div>
 
           {/* Sort Dropdown */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: '#ffffff', border: '1px solid #d1d5db', borderRadius: '8px', padding: '0.35rem 0.65rem' }}>
+          <div className="sort-dropdown-wrap">
             <ArrowUpDown size={14} color="#666" />
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortOption)}
-              style={{ border: 'none', background: 'transparent', fontSize: '0.84rem', fontWeight: 600, color: '#333', cursor: 'pointer' }}
+              className="sort-select"
+              aria-label="Sort products"
             >
               <option value="featured">Featured</option>
               <option value="price-asc">Price: Low to High</option>

@@ -13,7 +13,13 @@ import {
   ChevronDown, 
   Zap, 
   ShieldCheck, 
-  HelpCircle 
+  HelpCircle,
+  Menu,
+  X,
+  ChevronRight,
+  Sparkles,
+  Flame,
+  Truck
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -36,11 +42,14 @@ export default function Header({ onOpenLocationModal }: HeaderProps) {
   const [deliveryLocation, setDeliveryLocation] = useState('Sydney, NSW 2000');
   const [showLocationPopup, setShowLocationPopup] = useState(false);
   const [showAccountDropdown, setShowAccountDropdown] = useState(false);
+  const [showMobileDrawer, setShowMobileDrawer] = useState(false);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       showToast(`Showing results for "${searchQuery}"`);
+      const el = document.getElementById('catalog-section');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -59,12 +68,12 @@ export default function Header({ onOpenLocationModal }: HeaderProps) {
       {/* Top micro strip */}
       <div className="top-strip">
         <div className="container top-strip-inner">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: '#ffb703', fontWeight: 600 }}>
+          <div className="top-strip-left">
+            <span className="top-strip-highlight">
               <Zap size={13} fill="#ffb703" /> 🇦🇺 Mega Aussie Sale 2026: Up to 70% Off Today!
             </span>
-            <span style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: '#22c55e' }}>
+            <span className="top-strip-divider">|</span>
+            <span className="top-strip-secondary">
               <ShieldCheck size={13} /> 100% Aussie Owned & ACL Protected
             </span>
           </div>
@@ -88,6 +97,15 @@ export default function Header({ onOpenLocationModal }: HeaderProps) {
       {/* Main Header Row */}
       <div className="container">
         <div className="header-inner">
+          {/* Mobile hamburger menu button */}
+          <button
+            className="mobile-menu-btn"
+            onClick={() => setShowMobileDrawer(true)}
+            aria-label="Open mobile navigation menu"
+          >
+            <Menu size={22} color="#ffffff" />
+          </button>
+
           {/* Brand Logo */}
           <a href="#" className="brand-logo" onClick={() => { setSearchQuery(''); setSelectedCategory('All Categories'); }}>
             <span style={{ color: '#ffffff' }}>Madhu</span>
@@ -95,8 +113,8 @@ export default function Header({ onOpenLocationModal }: HeaderProps) {
             <span className="brand-logo-badge">EXPRESS</span>
           </a>
 
-          {/* Location Delivery Selector */}
-          <div style={{ position: 'relative' }}>
+          {/* Location Delivery Selector (Desktop / Tablet) */}
+          <div className="header-location-wrap" style={{ position: 'relative' }}>
             <button 
               className="location-btn"
               onClick={() => setShowLocationPopup(!showLocationPopup)}
@@ -110,19 +128,7 @@ export default function Header({ onOpenLocationModal }: HeaderProps) {
             </button>
 
             {showLocationPopup && (
-              <div style={{
-                position: 'absolute',
-                top: '110%',
-                left: 0,
-                width: '260px',
-                background: '#ffffff',
-                color: '#111',
-                borderRadius: '8px',
-                padding: '0.9rem',
-                boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
-                zIndex: 110,
-                border: '1px solid #e5e7eb'
-              }}>
+              <div className="location-dropdown-panel">
                 <div style={{ fontSize: '0.85rem', fontWeight: 700, marginBottom: '0.5rem', color: '#111' }}>
                   Choose delivery location:
                 </div>
@@ -134,17 +140,7 @@ export default function Header({ onOpenLocationModal }: HeaderProps) {
                       setShowLocationPopup(false);
                       showToast(`Delivery location set to: ${loc}`);
                     }}
-                    style={{
-                      padding: '0.45rem 0.6rem',
-                      fontSize: '0.8rem',
-                      cursor: 'pointer',
-                      borderRadius: '4px',
-                      background: deliveryLocation === loc ? 'var(--primary-light)' : 'transparent',
-                      color: deliveryLocation === loc ? 'var(--primary)' : '#333',
-                      fontWeight: deliveryLocation === loc ? 700 : 500,
-                      marginBottom: '0.25rem',
-                      transition: 'background 0.15s'
-                    }}
+                    className={`location-dropdown-item ${deliveryLocation === loc ? 'active' : ''}`}
                   >
                     📍 {loc}
                   </div>
@@ -159,6 +155,7 @@ export default function Header({ onOpenLocationModal }: HeaderProps) {
               className="search-category-select"
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
+              aria-label="Filter search by category"
             >
               {CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>
@@ -170,20 +167,20 @@ export default function Header({ onOpenLocationModal }: HeaderProps) {
             <input 
               type="text"
               className="search-input"
-              placeholder="Search in Madhu Mart (e.g. Sony headphones, espresso machine, shoes...)"
+              placeholder="Search in Madhu Mart (Sony, Apple, shoes, coffee...)"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
 
             <button type="submit" className="search-btn" title="Search">
-              <Search size={20} />
+              <Search size={18} />
             </button>
           </form>
 
           {/* Action buttons */}
           <div className="header-actions">
-            {/* Account hover/dropdown */}
-            <div style={{ position: 'relative' }}>
+            {/* Account hover/dropdown (Desktop) */}
+            <div className="desktop-account-wrap" style={{ position: 'relative' }}>
               <button 
                 className="header-action-item"
                 onClick={() => setShowAccountDropdown(!showAccountDropdown)}
@@ -195,45 +192,24 @@ export default function Header({ onOpenLocationModal }: HeaderProps) {
               </button>
 
               {showAccountDropdown && (
-                <div style={{
-                  position: 'absolute',
-                  top: '110%',
-                  right: 0,
-                  width: '240px',
-                  background: '#ffffff',
-                  color: '#111',
-                  borderRadius: '8px',
-                  padding: '1rem',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
-                  zIndex: 110,
-                  border: '1px solid #e5e7eb'
-                }}>
+                <div className="account-dropdown-panel">
                   <button 
                     onClick={() => {
                       setShowAccountDropdown(false);
                       showToast('Welcome to Demo Account! Signed in as VIP Customer');
                     }}
-                    style={{
-                      width: '100%',
-                      background: 'linear-gradient(135deg, var(--primary) 0%, #ff7020 100%)',
-                      color: '#ffffff',
-                      fontWeight: 700,
-                      padding: '0.6rem',
-                      borderRadius: '6px',
-                      marginBottom: '0.8rem',
-                      fontSize: '0.88rem'
-                    }}
+                    className="account-signin-btn"
                   >
                     Sign In / Register
                   </button>
-                  <div style={{ fontSize: '0.75rem', color: '#666', borderTop: '1px solid #eee', paddingTop: '0.6rem' }}>
-                    <div style={{ padding: '0.3rem 0', cursor: 'pointer', fontWeight: 600 }} onClick={() => { setShowAccountDropdown(false); showToast('Opening Order History (Demo)'); }}>
+                  <div style={{ fontSize: '0.78rem', color: '#666', borderTop: '1px solid #eee', paddingTop: '0.6rem' }}>
+                    <div style={{ padding: '0.35rem 0', cursor: 'pointer', fontWeight: 600 }} onClick={() => { setShowAccountDropdown(false); showToast('Opening Order History (Demo)'); }}>
                       📦 Your Orders & Tracking
                     </div>
-                    <div style={{ padding: '0.3rem 0', cursor: 'pointer', fontWeight: 600 }} onClick={() => { setShowAccountDropdown(false); showToast(`Wishlist items: ${wishlist.length}`); }}>
+                    <div style={{ padding: '0.35rem 0', cursor: 'pointer', fontWeight: 600 }} onClick={() => { setShowAccountDropdown(false); showToast(`Wishlist items: ${wishlist.length}`); }}>
                       ❤️ Your Wishlist ({wishlist.length})
                     </div>
-                    <div style={{ padding: '0.3rem 0', cursor: 'pointer', fontWeight: 600 }} onClick={() => { setShowAccountDropdown(false); showToast('Vouchers: $25 welcome coupon active!'); }}>
+                    <div style={{ padding: '0.35rem 0', cursor: 'pointer', fontWeight: 600 }} onClick={() => { setShowAccountDropdown(false); showToast('Vouchers: $25 welcome coupon active!'); }}>
                       🎟️ My Coupons & Rewards
                     </div>
                   </div>
@@ -243,15 +219,20 @@ export default function Header({ onOpenLocationModal }: HeaderProps) {
 
             {/* Wishlist quick trigger */}
             <button 
-              className="header-action-item"
+              className="header-action-item header-wishlist-btn"
               onClick={() => showToast(`You have ${wishlist.length} item(s) in your Wishlist`)}
               title="Wishlist"
             >
-              <span className="action-top-text">Favorite</span>
-              <span className="action-bot-text" style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                <Heart size={16} color={wishlist.length > 0 ? '#ff4d4f' : '#ffffff'} fill={wishlist.length > 0 ? '#ff4d4f' : 'none'} />
-                Wishlist ({wishlist.length})
-              </span>
+              <div className="mobile-icon-badge-wrap">
+                <Heart size={20} color={wishlist.length > 0 ? '#ff4d4f' : '#ffffff'} fill={wishlist.length > 0 ? '#ff4d4f' : 'none'} />
+                {wishlist.length > 0 && <span className="wishlist-badge">{wishlist.length}</span>}
+              </div>
+              <div className="desktop-only-action-text">
+                <span className="action-top-text">Favorite</span>
+                <span className="action-bot-text">
+                  Wishlist ({wishlist.length})
+                </span>
+              </div>
             </button>
 
             {/* Shopping Cart button */}
@@ -264,7 +245,7 @@ export default function Header({ onOpenLocationModal }: HeaderProps) {
                 <ShoppingCart size={22} color="#febd69" />
                 {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
               </div>
-              <div>
+              <div className="cart-btn-text">
                 <span className="location-small" style={{ color: '#adb5bd' }}>Cart</span>
                 <span className="location-bold" style={{ color: '#febd69' }}>
                   A${cartTotal.toFixed(2)}
@@ -274,6 +255,142 @@ export default function Header({ onOpenLocationModal }: HeaderProps) {
           </div>
         </div>
       </div>
+
+      {/* Mobile Drawer Side Menu */}
+      {showMobileDrawer && (
+        <div className="overlay-backdrop" onClick={() => setShowMobileDrawer(false)}>
+          <div className="mobile-drawer" onClick={(e) => e.stopPropagation()}>
+            {/* Drawer Header */}
+            <div className="mobile-drawer-header">
+              <div className="brand-logo" style={{ fontSize: '1.3rem' }}>
+                <span style={{ color: '#ffffff' }}>Madhu</span>
+                <span style={{ color: 'var(--primary)' }}>Mart</span>
+                <span className="brand-logo-badge">EXPRESS</span>
+              </div>
+              <button 
+                className="mobile-drawer-close"
+                onClick={() => setShowMobileDrawer(false)}
+                aria-label="Close navigation menu"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* User Greeting & Sign In */}
+            <div className="mobile-drawer-user">
+              <div className="user-avatar-circle">
+                <User size={20} color="#ffffff" />
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#f8fafc' }}>
+                  Hello, Aussie Shopper!
+                </div>
+                <div style={{ fontSize: '0.74rem', color: '#94a3b8' }}>
+                  Member Status: VIP Demo Guest
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile Drawer Body */}
+            <div className="mobile-drawer-body">
+              {/* Delivery Selector in Drawer */}
+              <div className="mobile-drawer-section">
+                <div className="drawer-section-title">
+                  <MapPin size={15} color="var(--primary)" /> Delivery Destination
+                </div>
+                <select 
+                  className="mobile-location-select"
+                  value={deliveryLocation}
+                  onChange={(e) => {
+                    setDeliveryLocation(e.target.value);
+                    showToast(`Delivery location set to: ${e.target.value}`);
+                  }}
+                >
+                  {locations.map((loc) => (
+                    <option key={loc} value={loc}>
+                      {loc}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Browse Categories */}
+              <div className="mobile-drawer-section">
+                <div className="drawer-section-title">
+                  <Sparkles size={15} color="var(--primary)" /> Shop By Department
+                </div>
+                <div className="mobile-cat-list">
+                  {CATEGORIES.map((cat) => (
+                    <div 
+                      key={cat}
+                      className={`mobile-cat-item ${selectedCategory === cat ? 'active' : ''}`}
+                      onClick={() => {
+                        setSelectedCategory(cat);
+                        setShowMobileDrawer(false);
+                        const el = document.getElementById('catalog-section');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                        showToast(`Filtered by ${cat}`);
+                      }}
+                    >
+                      <span>{cat}</span>
+                      <ChevronRight size={15} color="#9ca3af" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Special Features & Links */}
+              <div className="mobile-drawer-section">
+                <div className="drawer-section-title">Highlights & Customer Care</div>
+                <div className="mobile-quick-links">
+                  <div 
+                    className="mobile-quick-link" 
+                    onClick={() => {
+                      setShowMobileDrawer(false);
+                      const el = document.getElementById('flash-sale-section');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
+                    <Flame size={16} color="#f85606" />
+                    <span>Lightning Flash Deals</span>
+                  </div>
+                  <div 
+                    className="mobile-quick-link"
+                    onClick={() => {
+                      setShowMobileDrawer(false);
+                      openCart();
+                    }}
+                  >
+                    <ShoppingCart size={16} color="#0284c7" />
+                    <span>My Shopping Cart ({cartCount})</span>
+                  </div>
+                  <div 
+                    className="mobile-quick-link"
+                    onClick={() => {
+                      setShowMobileDrawer(false);
+                      showToast(`Wishlist contains ${wishlist.length} item(s)`);
+                    }}
+                  >
+                    <Heart size={16} color="#d9383a" />
+                    <span>My Saved Wishlist ({wishlist.length})</span>
+                  </div>
+                  <div 
+                    className="mobile-quick-link"
+                    onClick={() => {
+                      setShowMobileDrawer(false);
+                      showToast('Aussie Support hotline: 1800 623 486 (Mon-Fri 9am-6pm AEST)');
+                    }}
+                  >
+                    <HelpCircle size={16} color="#16a34a" />
+                    <span>Aussie Help & Support</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
+
